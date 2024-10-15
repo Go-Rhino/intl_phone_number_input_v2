@@ -71,15 +71,18 @@ class InternationalPhoneNumberInput extends StatefulWidget {
 
   final String? locale;
 
+  final TextStyle? hintStyle;
   final TextStyle? textStyle;
   final TextStyle? selectorTextStyle;
   final InputBorder? inputBorder;
   final InputDecoration? inputDecoration;
   final InputDecoration? searchBoxDecoration;
   final Color? cursorColor;
+  final Color? canvasColor;
   final TextAlign textAlign;
   final TextAlignVertical textAlignVertical;
   final EdgeInsets scrollPadding;
+  final EdgeInsets? hintPadding;
 
   final FocusNode? focusNode;
   final Iterable<String>? autofillHints;
@@ -113,6 +116,7 @@ class InternationalPhoneNumberInput extends StatefulWidget {
     this.ignoreBlank = false,
     this.countrySelectorScrollControlled = true,
     this.locale,
+    this.hintStyle,
     this.textStyle,
     this.selectorTextStyle,
     this.inputBorder,
@@ -122,7 +126,9 @@ class InternationalPhoneNumberInput extends StatefulWidget {
     this.textAlignVertical = TextAlignVertical.center,
     this.scrollPadding = const EdgeInsets.all(20.0),
     this.focusNode,
+    this.hintPadding,
     this.cursorColor,
+    this.canvasColor,
     this.autofillHints,
     this.countries,
   }) : super(key: key);
@@ -288,6 +294,8 @@ class _InputWidgetState extends State<InternationalPhoneNumberInput> {
         InputDecoration(
           border: widget.inputBorder ?? UnderlineInputBorder(),
           hintText: widget.hintText,
+          hintStyle: widget.hintStyle,
+          contentPadding: widget.hintPadding,
         );
 
     if (widget.selectorConfig.setSelectorButtonAsPrefixIcon) {
@@ -298,6 +306,7 @@ class _InputWidgetState extends State<InternationalPhoneNumberInput> {
         onCountryChanged: onCountryChanged,
         selectorConfig: widget.selectorConfig,
         selectorTextStyle: widget.selectorTextStyle,
+        canvasColor: widget.canvasColor,
         searchBoxDecoration: widget.searchBoxDecoration,
         locale: locale,
         isEnabled: widget.isEnabled,
@@ -405,6 +414,7 @@ class _InputWidgetView
                   onCountryChanged: state.onCountryChanged,
                   selectorConfig: widget.selectorConfig,
                   selectorTextStyle: widget.selectorTextStyle,
+                  canvasColor: widget.canvasColor,
                   searchBoxDecoration: widget.searchBoxDecoration,
                   locale: state.locale,
                   isEnabled: widget.isEnabled,
