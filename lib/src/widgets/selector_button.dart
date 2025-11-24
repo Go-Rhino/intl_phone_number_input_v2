@@ -12,6 +12,7 @@ class SelectorButton extends StatelessWidget {
   final Country? country;
   final SelectorConfig selectorConfig;
   final TextStyle? selectorTextStyle;
+  final Color? canvasColor;
   final InputDecoration? searchBoxDecoration;
   final bool autoFocusSearchField;
   final String? locale;
@@ -20,19 +21,20 @@ class SelectorButton extends StatelessWidget {
 
   final ValueChanged<Country?> onCountryChanged;
 
-  const SelectorButton({
-    Key? key,
-    required this.countries,
-    required this.country,
-    required this.selectorConfig,
-    required this.selectorTextStyle,
-    required this.searchBoxDecoration,
-    required this.autoFocusSearchField,
-    required this.locale,
-    required this.onCountryChanged,
-    required this.isEnabled,
-    required this.isScrollControlled,
-  }) : super(key: key);
+  const SelectorButton(
+      {Key? key,
+      required this.countries,
+      required this.country,
+      required this.selectorConfig,
+      required this.selectorTextStyle,
+      required this.canvasColor,
+      required this.searchBoxDecoration,
+      required this.autoFocusSearchField,
+      required this.locale,
+      required this.onCountryChanged,
+      required this.isEnabled,
+      required this.isScrollControlled})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +74,7 @@ class SelectorButton extends StatelessWidget {
                     if (selectorConfig.selectorType ==
                         PhoneInputSelectorType.BOTTOM_SHEET) {
                       selected = await showCountrySelectorBottomSheet(
-                          context, countries);
+                          context, countries, canvasColor);
                     } else {
                       selected =
                           await showCountrySelectorDialog(context, countries);
@@ -142,8 +144,8 @@ class SelectorButton extends StatelessWidget {
   }
 
   /// shows a Dialog with list [countries] if the [PhoneInputSelectorType.BOTTOM_SHEET] is selected
-  Future<Country?> showCountrySelectorBottomSheet(
-      BuildContext inheritedContext, List<Country> countries) {
+  Future<Country?> showCountrySelectorBottomSheet(BuildContext inheritedContext,
+      List<Country> countries, Color? canvasColor) {
     return showModalBottomSheet(
       context: inheritedContext,
       clipBehavior: Clip.hardEdge,
@@ -167,7 +169,7 @@ class SelectorButton extends StatelessWidget {
                   textDirection: Directionality.of(inheritedContext),
                   child: Container(
                     decoration: ShapeDecoration(
-                      color: Theme.of(context).canvasColor,
+                      color: canvasColor ?? Theme.of(context).canvasColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(12),

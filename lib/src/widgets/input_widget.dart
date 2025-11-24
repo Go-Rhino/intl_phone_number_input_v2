@@ -273,9 +273,7 @@ class InternationalPhoneNumberInput extends StatefulWidget {
   /// Should be a valid locale code like 'en', 'es', 'fr', etc.
   final String? locale;
 
-  /// Text style for the phone number input field.
-  ///
-  /// If not provided, uses the theme's default text field style.
+  final TextStyle? hintStyle;
   final TextStyle? textStyle;
 
   /// Text style for the country selector button.
@@ -303,6 +301,7 @@ class InternationalPhoneNumberInput extends StatefulWidget {
   ///
   /// If not provided, uses the theme's default cursor color.
   final Color? cursorColor;
+  final Color? canvasColor;
 
   /// Horizontal alignment of the text within the input field.
   ///
@@ -318,6 +317,7 @@ class InternationalPhoneNumberInput extends StatefulWidget {
   ///
   /// Defaults to [EdgeInsets.all(20.0)].
   final EdgeInsets scrollPadding;
+  final EdgeInsets? hintPadding;
 
   /// Focus node for the text field.
   ///
@@ -341,46 +341,49 @@ class InternationalPhoneNumberInput extends StatefulWidget {
   /// ```
   final List<String>? countries;
 
-  InternationalPhoneNumberInput(
-      {Key? key,
-      this.selectorConfig = const SelectorConfig(),
-      required this.onInputChanged,
-      this.onInputValidated,
-      this.onSubmit,
-      this.onFieldSubmitted,
-      this.validator,
-      this.onSaved,
-      this.fieldKey,
-      this.textFieldController,
-      this.keyboardAction,
-      this.keyboardType = TextInputType.phone,
-      this.initialValue,
-      this.hintText = 'Phone number',
-      this.errorMessage = 'Invalid phone number',
-      this.selectorButtonOnErrorPadding = 24,
-      this.spaceBetweenSelectorAndTextField = 12,
-      this.maxLength = 15,
-      this.isEnabled = true,
-      this.formatInput = true,
-      this.autoFocus = false,
-      this.autoFocusSearch = false,
-      this.autoValidateMode = AutovalidateMode.disabled,
-      this.ignoreBlank = false,
-      this.countrySelectorScrollControlled = true,
-      this.locale,
-      this.textStyle,
-      this.selectorTextStyle,
-      this.inputBorder,
-      this.inputDecoration,
-      this.searchBoxDecoration,
-      this.textAlign = TextAlign.start,
-      this.textAlignVertical = TextAlignVertical.center,
-      this.scrollPadding = const EdgeInsets.all(20.0),
-      this.focusNode,
-      this.cursorColor,
-      this.autofillHints,
-      this.countries})
-      : super(key: key);
+  InternationalPhoneNumberInput({
+    Key? key,
+    this.selectorConfig = const SelectorConfig(),
+    required this.onInputChanged,
+    this.onInputValidated,
+    this.onSubmit,
+    this.onFieldSubmitted,
+    this.validator,
+    this.onSaved,
+    this.fieldKey,
+    this.textFieldController,
+    this.keyboardAction,
+    this.keyboardType = TextInputType.phone,
+    this.initialValue,
+    this.hintText = 'Phone number',
+    this.errorMessage = 'Invalid phone number',
+    this.selectorButtonOnErrorPadding = 24,
+    this.spaceBetweenSelectorAndTextField = 12,
+    this.maxLength = 15,
+    this.isEnabled = true,
+    this.formatInput = true,
+    this.autoFocus = false,
+    this.autoFocusSearch = false,
+    this.autoValidateMode = AutovalidateMode.disabled,
+    this.ignoreBlank = false,
+    this.countrySelectorScrollControlled = true,
+    this.locale,
+    this.hintStyle,
+    this.textStyle,
+    this.selectorTextStyle,
+    this.inputBorder,
+    this.inputDecoration,
+    this.searchBoxDecoration,
+    this.textAlign = TextAlign.start,
+    this.textAlignVertical = TextAlignVertical.center,
+    this.scrollPadding = const EdgeInsets.all(20.0),
+    this.focusNode,
+    this.hintPadding,
+    this.cursorColor,
+    this.canvasColor,
+    this.autofillHints,
+    this.countries,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _InputWidgetState();
@@ -543,6 +546,8 @@ class _InputWidgetState extends State<InternationalPhoneNumberInput> {
         InputDecoration(
           border: widget.inputBorder ?? UnderlineInputBorder(),
           hintText: widget.hintText,
+          hintStyle: widget.hintStyle,
+          contentPadding: widget.hintPadding,
         );
 
     if (widget.selectorConfig.setSelectorButtonAsPrefixIcon) {
@@ -553,6 +558,7 @@ class _InputWidgetState extends State<InternationalPhoneNumberInput> {
         onCountryChanged: onCountryChanged,
         selectorConfig: widget.selectorConfig,
         selectorTextStyle: widget.selectorTextStyle,
+        canvasColor: widget.canvasColor,
         searchBoxDecoration: widget.searchBoxDecoration,
         locale: locale,
         isEnabled: widget.isEnabled,
@@ -660,6 +666,7 @@ class _InputWidgetView
                   onCountryChanged: state.onCountryChanged,
                   selectorConfig: widget.selectorConfig,
                   selectorTextStyle: widget.selectorTextStyle,
+                  canvasColor: widget.canvasColor,
                   searchBoxDecoration: widget.searchBoxDecoration,
                   locale: state.locale,
                   isEnabled: widget.isEnabled,
