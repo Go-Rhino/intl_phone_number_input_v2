@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/src/models/country_model.dart';
 import 'package:intl_phone_number_input/src/utils/selector_config.dart';
@@ -21,19 +23,20 @@ class SelectorButton extends StatelessWidget {
 
   final ValueChanged<Country?> onCountryChanged;
 
-  const SelectorButton(
-      {Key? key,
-      required this.countries,
-      required this.country,
-      required this.selectorConfig,
-      required this.selectorTextStyle,
-      required this.canvasColor,
-      required this.searchBoxDecoration,
-      required this.autoFocusSearchField,
-      required this.locale,
-      required this.onCountryChanged,
-      required this.isEnabled,
-      required this.isScrollControlled})
+  const SelectorButton({
+    Key? key,
+    required this.countries,
+    required this.country,
+    required this.selectorConfig,
+    required this.selectorTextStyle,
+    required this.canvasColor,
+    required this.searchBoxDecoration,
+    required this.autoFocusSearchField,
+    required this.locale,
+    required this.onCountryChanged,
+    required this.isEnabled,
+    required this.isScrollControlled,
+  })
       : super(key: key);
 
   @override
@@ -74,7 +77,10 @@ class SelectorButton extends StatelessWidget {
                     if (selectorConfig.selectorType ==
                         PhoneInputSelectorType.BOTTOM_SHEET) {
                       selected = await showCountrySelectorBottomSheet(
-                          context, countries, canvasColor);
+                        context,
+                        countries,
+                        canvasColor,
+                      );
                     } else {
                       selected =
                           await showCountrySelectorDialog(context, countries);
@@ -85,16 +91,32 @@ class SelectorButton extends StatelessWidget {
                     }
                   }
                 : null,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: Item(
-                country: country,
-                showFlag: selectorConfig.showFlags,
-                useEmoji: selectorConfig.useEmoji,
-                leadingPadding: selectorConfig.leadingPadding,
-                trailingSpace: selectorConfig.trailingSpace,
-                textStyle: selectorTextStyle,
-              ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Item(
+                  country: country,
+                  showFlag: selectorConfig.showFlags,
+                  useEmoji: selectorConfig.useEmoji,
+                  // Rhino: added to create padding between splash border and a flag
+                  leadingPadding: 8,
+                  trailingSpace: selectorConfig.trailingSpace,
+                  textStyle: selectorTextStyle,
+                ),
+                SizedBox(width: 8),
+                Transform.rotate(
+                  angle: -math.pi / 2,
+                  origin: Offset(-1.5, -1.5),
+                  child: ColoredBox(
+                    color: Colors.transparent,
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      size: 16,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 8),
+              ],
             ),
           );
   }

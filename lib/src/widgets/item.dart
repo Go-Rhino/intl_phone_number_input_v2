@@ -39,8 +39,9 @@ class Item extends StatelessWidget {
             country: country,
             showFlag: showFlag,
             useEmoji: useEmoji,
+
           ),
-          SizedBox(width: 12.0),
+          SizedBox(width: 8),
           Text(
             '$dialCode',
             textDirection: TextDirection.ltr,
@@ -69,13 +70,16 @@ class _Flag extends StatelessWidget {
                     Utils.generateFlagEmojiUnicode(country?.alpha2Code ?? ''),
                     style: Theme.of(context).textTheme.headlineSmall,
                   )
-                : Image.asset(
-                    country!.flagUri,
-                    width: 32.0,
-                    package: 'intl_phone_number_input',
-                    errorBuilder: (context, error, stackTrace) {
-                      return SizedBox.shrink();
-                    },
+                : ClipRRect(
+                    borderRadius: BorderRadius.circular(4.0),
+                    child: Image.asset(
+                      country!.flagUri,
+                      width: 32.0,
+                      package: 'intl_phone_number_input',
+                      errorBuilder: (context, error, stackTrace) {
+                        return SizedBox.shrink();
+                      },
+                    ),
                   ),
           )
         : SizedBox.shrink();
